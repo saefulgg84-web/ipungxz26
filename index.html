@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pungg public Ptrodesu</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --card:rgba(0,0,0,0.65);
+  --primary:#4da3ff;
+  --accent:#7fd0ff;
+  --text:#ffffff;
+  --muted:#c7d2ff;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Poppins,sans-serif;
+  color:var(--text);
+  min-height:100vh;
+  overflow:hidden;
+}
+
+.hidden{display:none}
+.app{max-width:420px;margin:auto;padding:16px;position:relative;z-index:2}
+.card{background:var(--card);border-radius:20px;padding:18px;margin-bottom:18px}
+label{font-size:13px;color:var(--muted)}
+input,select{width:100%;padding:14px;margin:8px 0 14px;border-radius:14px;border:none;background:#0f172a;color:#fff}
+button{width:100%;padding:14px;border-radius:16px;border:none;background:rgba(0,0,0,.6);color:#fff;font-weight:600;margin-top:6px}
+.btn-outline{background:transparent;border:1px solid #fff}
+
+/* WA BUTTON */
+.wa-float{position:fixed;bottom:20px;right:16px;width:55px;height:55px;background:rgba(0,0,0,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,0.4);z-index:999}
+.wa-float img{width:30px;height:30}
+
+/* BACKGROUND VIDEO */
+#bgVideo{position:fixed;top:0;left:0;width:100%;height:100%;object-fit:cover;filter:blur(3px) brightness(.6);z-index:-2}
+
+/* AUDIO BUTTON */
+#audioBtn{position:fixed;top:14px;right:14px;width:38px;height:38px;border:none;border-radius:50%;background:rgba(0,0,0,.1);color:#fff;font-size:18px;cursor:pointer;z-index:999}
+
+/* HEADER VIDEO */
+.header{text-align:center;margin-bottom:18px}
+.header video{width:120px;height:120px;border-radius:50%;object-fit:cover;border:3px solid var(--primary);box-shadow:0 4px 15px rgba(0,0,0,.6)}
+.header h1{margin:10px 0 2px;font-size:22px}
+.header p{margin:0;font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<!-- BACKGROUND VIDEO -->
+<video id="bgVideo" autoplay muted loop playsinline>
+  <source src="https://files.cloudkuimages.guru/videos/ef577a0c4408.mp4" type="video/mp4">
+</video>
+
+<!-- BACKGROUND AUDIO -->
+<audio id="bgAudio" autoplay loop>
+  <source src="https://files.cloudkuimages.guru/audios/9ca99476e501.mpeg" type="audio/mpeg">
+</audio>
+<button id="audioBtn">🔊</button>
+
+<script>
+const audio=document.getElementById("bgAudio");
+const btn=document.getElementById("audioBtn");
+btn.onclick=()=>{
+  if(audio.paused){audio.play();btn.textContent="🔊"}else{audio.pause();btn.textContent="🔇"}
+};
+</script>
+
+<div class="app">
+  <div class="header">
+    <video autoplay loop muted playsinline>
+      <source src="https://files.cloudkuimages.guru/videos/5303473d4bfa.mp4" type="video/mp4">
+    </video>
+    <h1>Pungg Public Ptrodesu</h1>
+    <p>Mobile Panel Creator</p>
+  </div>
+
+  <!-- LOGIN -->
+  <div id="loginGate" class="card">
+    <label>Username Login</label>
+    <input id="loginUser">
+    <label>Password Login</label>
+    <input id="loginPass" type="password">
+    <button onclick="checkLogin()">Login</button>
+  </div>
+
+  <!-- FORM -->
+  <div id="step1" class="card hidden">
+    <label>USERNAME PANEL</label>
+    <input id="username" oninput="this.value=this.value.toLowerCase()">
+    <label>STORAGE</label>
+    <select id="paket">
+      <option value="">SELECT STORAGE</option>
+    <option value="1024">1 GB</option>
+    <option value="2048">2 GB</option>
+    <option value="3072">3 GB</option>
+    <option value="4096">4 GB</option>
+    <option value="5120">5 GB</option>
+    <option value="6144">6 GB</option>
+    <option valus="7168">7 GB</option>
+    <option value="8192">8 GB</option>
+    <option value="9216">9 GB</option>
+    <option value="10240">10 GB</option>
+    <option value="0">UNLIMITED</option>
+    </select>
+    <button onclick="buatPanel()">Create Panel</button>
+    <button class="btn-outline" onclick="logout()">Logout</button>
+  </div>
+
+  <div id="loadingStep" class="card hidden">
+    <p style="text-align:center">Processing...</p>
+  </div>
+
+  <div id="step2" class="card hidden">
+    <p>Email: <span id="email"></span></p>
+    <p>Username: <span id="uname"></span></p>
+    <p>Password: <span id="pass"></span></p>
+    <p>RAM: <span id="ram"></span></p>
+    <button onclick="copyAll()">Copy</button>
+
+  </div>
+</div>
+<a href="https://whatsapp.com/channel/0029VbC9AsB3wtazd1Pz2k1u" target="_blank">
+  <button style="padding:15px 5px; border-radius:5px; background:rgba(0,0,0,0.7); color:white; border:none; cursor:pointer;">
+    Informasi Saluran
+  </button>
+</a>
+
+<!-- WA FLOAT -->
+<a href="https://wa.me/6283840810226?text=Halo%20Saya%20tertarik%20dengan%20Panel" target="_blank" class="wa-float">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg">
+</a>
+<script>
+const LOGIN_KEY="https://ipung-jierv2.tanks-order.my.id";
+const LOGIN_TIMESTAMP_KEY="ptla_9qaNsj3E4ypGkmqhlLWN9r59KBkCVhOa79vGM39jrEs"; // tambahan untuk 24 jam logout
+const LOGOUT_INTERVAL = 24*60*60*1000; 
+
+const GITHUB_USER  = "rizz857";
+const GITHUB_REPO  = "user-json";
+const GITHUB_FILE  = "user.json";
+const GITHUB_TOKEN = ""; //token github
+
+const DOMAIN="https://publik..web.id";
+const PLTA="ptla";
+
+
+function checkAutoLogout() {
+  const lastLogin = parseInt(localStorage.getItem(LOGIN_TIMESTAMP_KEY)||"0");
+  const now = Date.now();
+  if(lastLogin && (now - lastLogin) >= LOGOUT_INTERVAL){
+    alert("Sesi sudah lebih dari 24 jam. Silakan login ulang.");
+    logout();
+  }
+}
+
+// Panggil setiap load halaman
+checkAutoLogout();
+
+
+if(localStorage.getItem(LOGIN_KEY)==="true"){
+  loginGate.classList.add("hidden");
+  step1.classList.remove("hidden");
+  // update timestamp jika belum ada
+  if(!localStorage.getItem(LOGIN_TIMESTAMP_KEY)){
+    localStorage.setItem(LOGIN_TIMESTAMP_KEY, Date.now());
+  }
+}
+
+
+async function getGithubUsers(){
+  const res = await fetch(
+    `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${GITHUB_FILE}`,
+    { headers:{ Authorization:`Bearer ${GITHUB_TOKEN}` } }
+  );
+  const data = await res.json();
+  return JSON.parse(atob(data.content));
+}
+
+
+async function checkLogin(){
+  try{
+    const users = await getGithubUsers();
+    const u = loginUser.value.trim();
+    const p = loginPass.value.trim();
+    const ok = users.find(x=>x.username===u && x.password===p);
+    if(!ok) return alert("Login salah");
+
+    localStorage.setItem(LOGIN_KEY,"true");
+    localStorage.setItem(LOGIN_TIMESTAMP_KEY, Date.now()); // simpan waktu login
+    loginGate.classList.add("hidden");
+    step1.classList.remove("hidden");
+  }catch(e){alert("Gagal ambil user")}
+}
+
+
+function logout(){
+  localStorage.removeItem(LOGIN_KEY);
+  localStorage.removeItem(LOGIN_TIMESTAMP_KEY);
+  location.reload();
+}
+
+
+async function buatPanel(){
+  if(!username.value||!paket.value) return alert("Lengkapi data");
+  step1.classList.add("hidden");
+  loadingStep.classList.remove("hidden");
+
+  try{
+    const u=username.value.toLowerCase();
+    const r=await fetch(
+      `https://api.resellergaming.my.id/pterodactyl/addpanel?domain=${DOMAIN}&plta=${PLTA}&username=${u}&ram=${paket.value}&disk=${paket.value}&cpu=100`
+    );
+    const d=await r.json();
+    if(!d.user) throw 0;
+
+    loadingStep.classList.add("hidden");
+    step2.classList.remove("hidden");
+
+    email.textContent=d.user.attributes.email;
+    uname.textContent=u;
+    pass.textContent=u;
+    ram.textContent=paket.value==0?"UNLIMITED":(paket.value/1024)+" GB";
+  }catch{
+    alert("Gagal create panel");
+    location.reload();
+  }
+}
+
+function copyAll(){
+  navigator.clipboard.writeText(
+`*━━━━━━━━━━━━━━━━*  
+    *📦 DATA PANEL KAMU*  
+*━━━━━━━━━━━━━━━━*  
+  
+*📧 Email:* ${email.innerText}  
+*👤 Username:* ${uname.innerText}  
+*🔐 Password:* ${pass.innerText}  
+*🧠 RAM:* ${ram.innerText}  
+*🌐 Domain:* ${DOMAIN}  
+  
+*━━━━━━━━━━━━━━━━*  
+    *📌 NOTE IMPORTANT*  
+*━━━━━━━━━━━━━━━━*  
+° *PANEL BERLAKU 30 HARI*  
+° *GARANSI 15 HARI*  
+° *DILARANG Pasang SC DDOS*  
+° *NO SEBAR DOMAIN*  
+° *NO SEBAR DATA PANEL*  
+° *CLAIM GARANSI WAJIB AD STRUK!!*
+*━━━━━━━━━━━━━━━━*  
+   *📌 Informasi Lainnya*  
+https://whatsapp.com/channel/0029VbBSyLI0gcfGL6Hcgl3b
+*━━━━━━━━━━━━━━━━*  
+> *© Pungg Official*`
+  );
+  alert("Disalin");
+}
+</script>
+
+</body>
+</html>
